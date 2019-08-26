@@ -22,6 +22,8 @@ export const actions = {
       userId: payload.userId,
       nickname: payload.nickname,
       password: payload.password,
+    }, {
+      withCredentials: true,
     });
 
     const { status } = result;
@@ -31,6 +33,31 @@ export const actions = {
     }
   },
   logIn({ commit }, payload) {
-    commit('setMe', payload);
+    this.$axios.post(`${BACKEND_URL}/api/user/login`, {
+      userId: payload.email,
+      password: payload.password,
+    }, {
+      withCredentials: true,
+    })
+      .then((res) => {
+
+        commit('setMe', res.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  },
+  loadUser({ commit }, payload) {
+
+    this.$axios.get(`${BACKEND_URL}/api/user`, {
+    }, {
+      withCredentials: true,
+    })
+      .then((res) => {
+        commit('setMe', res.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   },
 };

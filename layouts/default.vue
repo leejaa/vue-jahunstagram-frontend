@@ -16,7 +16,7 @@
             </v-btn>
         </v-toolbar>
         <v-dialog v-model="isWrite" max-width="700">
-            <write-form />
+            <write-form v-on:changeIsWrite="changeIsWrite"></write-form>
         </v-dialog>
         <nuxt />
     </v-app>
@@ -34,5 +34,14 @@
                 isWrite: false
             };
         },
+        beforeCreate() {
+            this.$store.dispatch('users/loadUser');
+        },
+        methods: {
+            changeIsWrite(arg){
+
+                this.isWrite = arg;
+            }
+        }
     };
 </script>

@@ -1,12 +1,10 @@
 <template>
 	<v-app>
     <div>
-		  <feed v-for="p in mainPosts" :key="p.id" :post="p"/>
+		  <feed v-for="p in mainPosts" :key="p.id" :post="p" />
     </div>
 	</v-app>
 </template>
-
-
 
 
 <script>
@@ -50,6 +48,11 @@
           }
         }
       },
+      writeComment(){
+        alert();
+      }
     },
+    middleware: 'authenticated',
+    
   };
 </script>
