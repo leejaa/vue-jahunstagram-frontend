@@ -112,7 +112,7 @@
           })
             .then(() => {
               this.$router.push({
-                path: '/',
+                path: '/login',
               });
             })
             .catch(() => {
