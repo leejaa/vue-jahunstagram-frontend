@@ -6,9 +6,11 @@
                             class="mx-auto"
                         >
                         <v-list-item>
+                          <nuxt-link :to="`/user/${post.User.id}`">
                             <v-list-item-avatar>
                                 <v-img :src="post.User.avatar"></v-img>
                             </v-list-item-avatar>
+                          </nuxt-link>
                             <v-list-item-content>
                                 <v-list-item-title class="headline">{{post.title}}</v-list-item-title>
                                 <v-list-item-subtitle>{{post.User.nickname}}</v-list-item-subtitle>
@@ -56,7 +58,7 @@
 
                               <v-list-item>
                                 <v-list-item-avatar>
-                                  <v-img :src="me.avatar"></v-img>
+                                  <v-img :src="me.avatar && me.avatar"></v-img>
                                 </v-list-item-avatar>
 
                                 <v-list-item-content>

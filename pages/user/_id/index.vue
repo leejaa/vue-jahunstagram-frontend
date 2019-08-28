@@ -7,7 +7,7 @@
         <v-row style="margin-bottom:20px;">
                 <v-col cols="3">
                     <div>
-                        <v-list-item-avatar color="grey" height="130" width="130" @click="$refs.file.click()">
+                        <v-list-item-avatar color="grey" height="130" width="130" @click="user.id === me.id ? $refs.file.click() : null">
                             <input type="file" ref="file" style="display:none;" v-on:change="onFileChange">
                             <v-img :src="user.avatar || 'http://mblogthumb2.phinf.naver.net/20150427_261/ninevincent_1430122791768m7oO1_JPEG/kakao_1.jpg?type=w2'">
                             </v-img>
@@ -25,11 +25,11 @@
                         </v-btn>
                         
                         <v-btn class="ma-2" color="primary" dark style="font-family: 'Jua', sans-serif;font-size:1rem;" width="150"
-                             v-if="me.Followers.findIndex(v => v.id === user.id) === -1 && user.id !== me.id">팔로우
+                             v-if="me.Followings.findIndex(v => v === user.id) === -1 && user.id !== me.id" @click="fnFollow">팔로우
                         </v-btn>
 
                         <v-btn class="ma-2" color="red" dark style="font-family: 'Jua', sans-serif;font-size:1rem;" width="150"
-                             v-if="me.Followers.findIndex(v => v.id === user.id) !== -1">팔로우 취소
+                             v-if="me.Followings.findIndex(v => v === user.id) !== -1" @click="fnUnfollow">팔로우 취소
                         </v-btn>
                     </p>
 
@@ -41,7 +41,7 @@
 
         <v-row style="margin-top:20px;">
 
-          <div v-if="user.Posts"><strong>게시물이 없습니다.</strong></div>
+          <div v-if="!user.Posts || user.Posts.length <= 0"><strong>게시물이 없습니다.</strong></div>
 
             <v-card v-else>
                 <v-container fluid>
@@ -147,6 +147,16 @@ import { API_KEY } from '../../../env'
       },
       changeAvatar(){
         document.getElementById("fileId").click;
+      },
+      fnFollow(){
+        this.$store.dispatch('users/follow', {
+            id: this.user.id
+        });
+      },
+      fnUnfollow(){
+        this.$store.dispatch('users/unfollow', {
+            id: this.user.id
+        });
       }
     },
     middleware: 'authenticated',

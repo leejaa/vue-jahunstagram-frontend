@@ -35,6 +35,10 @@
                                 </p>
                             </nuxt-link>
 
+                                <p style="font-family:'Do Hyeon', sans-serif;color:red;cursor:pointer;" @click="testLogin">
+                                    테스트계정으로 로그인
+                                </p>
+
                             <v-btn block color="secondary" dark height="55" type="submit"><div class="headline">로그인</div></v-btn>
                         </v-form>
 
@@ -89,6 +93,12 @@
             password: this.password,
           });
         }
+      },
+      testLogin(){
+          this.$store.dispatch('users/logIn', {
+            email: 'jahun88@naver.com',
+            password: '1234',
+          });
       }
     },
   };

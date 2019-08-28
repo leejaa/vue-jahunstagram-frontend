@@ -49,7 +49,7 @@
         }
       },
       writeComment(){
-        alert();
+        
       }
     },
     middleware: 'authenticated',

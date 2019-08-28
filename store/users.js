@@ -3,10 +3,6 @@ import { BACKEND_URL } from "../env";
 
 export const state = () => ({
     me: null,
-    followerList: [],
-    followingList: [],
-    hasMoreFollower: true,
-    hasMoreFollowing: true,
     allUsers: [],
     user: {}
   });
@@ -24,6 +20,17 @@ export const mutations = {
   },
   editUser(state, payload) {
     state.user.avatar = payload;
+  },
+  follow(state, payload) {
+    state.me.Followings.push(payload);
+    state.user.Followers = state.user.Followers + 1;
+  },
+  unfollow(state, payload) {
+    const index = state.me.Followings.findIndex(v => v.id === payload);
+    state.me.Followings.splice(index, 1);
+
+    state.user.Followers = state.user.Followers - 1;
+
   }
 };
 
@@ -126,4 +133,36 @@ export const actions = {
       });
 
   },
+  follow({ commit }, payload) {
+    this.$axios.post(`${BACKEND_URL}/api/user/${payload.id}/follow`,{
+      id: payload.id
+    }, {
+      withCredentials: true,
+    })
+      .then((res) => {
+
+        console.log(`res.data : ${JSON.stringify(res.data)}`);
+
+        commit('follow', res.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  },
+  unfollow({ commit }, payload) {
+    this.$axios.post(`${BACKEND_URL}/api/user/${payload.id}/unfollow`,{
+      id: payload.id
+    }, {
+      withCredentials: true,
+    })
+      .then((res) => {
+
+        console.log(`res.data : ${JSON.stringify(res.data)}`);
+
+        commit('unfollow', res.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
 };
